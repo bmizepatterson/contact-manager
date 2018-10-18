@@ -16,7 +16,8 @@ let app = new Vue({
         formOldId: '',
         sortAscending: false,
         sortBy: '',
-        filter: ''
+        filter: '',
+        error: ''
     },
 
     mounted: function() {
@@ -48,7 +49,6 @@ let app = new Vue({
                 });
             }
 
-
             // Then, sort.
             if (this.sortBy) {
                 filteredContacts.sort(this.compare);
@@ -58,15 +58,26 @@ let app = new Vue({
             }
 
             return filteredContacts;
-
         }
     },
 
     methods: {
 
         addOrUpdateContact: function() {
-
-            // TODO: validate input
+            this.error = '';
+            // Validate first/last name - need one or both!
+            if (!this.formFirst && !this.formLast) {
+                this.error = 'Please enter either a <strong>first name</strong> or a <strong>last name</strong> (or both).';
+            }
+            // Validate email if one is present
+            if (this.formEmail && !/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(this.formEmail)) {
+                this.error = 'Please enter a valid <strong>email address</strong>.';
+            }
+            // Validate phone number
+            if (this.formPhone && !/^[\+\d-\. extEXT\(\)]+$/.test(this.formPhone)) {
+                this.error = 'Please enter a valid phone number.';
+            }
+            if (this.error) return;
 
             // If updating then just delete the old one and add a new
             if (this.formOldId) {

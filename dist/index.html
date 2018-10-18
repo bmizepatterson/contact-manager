@@ -13,6 +13,9 @@
         <a name="form"></a>
         <div id="app" class="pt-5" v-cloak>
             <a href="#form" @click="toggleForm">{{ showForm ? 'Hide form' : 'Show form' }}</a>
+
+            <div v-if="error" v-html="error" class="alert alert-danger mt-3"></div>
+
             <div v-if="showForm" class="mt-4">
                 <form class="clearfix">
                     <div class="form-group">
@@ -25,7 +28,7 @@
                     </div>
                     <div class="form-group">
                         <label for="emailaddr" class="text-warning">Email Address:</label>
-                        <input v-model="formEmail" id="emailaddr" type="text" class="form-control bg-secondary text-light">
+                        <input v-model="formEmail" id="emailaddr" type="email" class="form-control bg-secondary text-light">
                     </div>
                     <div class="form-group">
                         <label for="phonenum" class="text-warning">Phone Number:</label>
@@ -75,9 +78,14 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <div v-if="!displayList.length" class="mt-5 alert alert-info">No contacts match your search.</div>
+
             </div>
 
+
             <div v-else class="mt-5 alert alert-info">No contacts have been added. Use the form to enter new contacts.</div>
+
 
         </div>
 
