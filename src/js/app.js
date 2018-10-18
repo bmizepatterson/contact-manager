@@ -25,8 +25,6 @@ let app = new Vue({
             }
         ],
 
-        buttonText: 'Add',
-
         showForm: true,
 
         formFirst: '',
@@ -61,7 +59,6 @@ let app = new Vue({
             this.clearForm();
 
             this.nextId++;
-            this.buttonText = 'Add';
         },
 
         sortContacts: function(field) {
@@ -82,7 +79,6 @@ let app = new Vue({
             this.formOldId = updateContact.id;
 
             this.showForm = true;
-            this.buttonText = 'Update';
         },
 
         deleteContact: function(id) {

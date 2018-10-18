@@ -31,7 +31,10 @@
                         <input v-model="formPhone" id="phonenum" type="text" class="form-control bg-secondary text-light">
                     </div>
                     <input type="hidden" v-bind:value="formOldId">
-                    <button type="button" class="btn btn-info btn-warning float-right" @click="addOrUpdateContact">{{ buttonText }}</button>
+                    <div class="float-right">
+                        <button type="button" v-if="formOldId" @click="clearForm" class="btn btn-outline-light">Cancel</button>
+                        <button type="button" class="btn btn-info btn-warning ml-3" @click="addOrUpdateContact">{{ formOldId ? 'Update' : 'Add' }}</button>
+                    </div>
                 </form>
             </div>
 
