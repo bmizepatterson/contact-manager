@@ -8,3 +8,7 @@ $test: 'test';
 [v-cloak] {
     display:none;
 }
+
+.table th {
+    border-top: none;
+}

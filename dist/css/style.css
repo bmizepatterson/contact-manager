@@ -8614,4 +8614,8 @@ h3 {
   display: none;
 }
 
+.table th {
+  border-top: none;
+}
+
 /*# sourceMappingURL=style.css.map */

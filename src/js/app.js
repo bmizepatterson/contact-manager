@@ -6,24 +6,9 @@ let app = new Vue({
 
     data: {
 
-        nextId: 3,
+        nextId: 1,
 
-        contacts: [
-            {
-                id: 1,
-                firstname: 'John',
-                lastname: 'Deer',
-                emailaddr: 'jdeer@example.com',
-                phonenum: '867-5309'
-            },
-            {
-                id: 2,
-                firstname: 'Jane',
-                lastname: 'Doe',
-                emailaddr: 'janed@example.com',
-                phonenum: '859-123-4567'
-            }
-        ],
+        contacts: [],
 
         showForm: true,
 
@@ -33,6 +18,14 @@ let app = new Vue({
         formPhone: '',
         formOldId: ''
 
+    },
+
+    mounted: function() {
+
+        if (localStorage.contacts) {
+            this.contacts = JSON.parse(localStorage.contacts);
+        }
+        this.nextId = this.findNextId();
     },
 
     methods: {
@@ -55,9 +48,8 @@ let app = new Vue({
             };
 
             this.contacts.push(newContact);
-
+            this.saveToDisk();
             this.clearForm();
-
             this.nextId++;
         },
 
@@ -77,7 +69,6 @@ let app = new Vue({
             this.formEmail = updateContact.emailaddr;
             this.formPhone = updateContact.phonenum;
             this.formOldId = updateContact.id;
-
             this.showForm = true;
         },
 
@@ -86,6 +77,7 @@ let app = new Vue({
             // TODO: Ask for confirmation
 
             this.contacts.splice(this.findContactById(id), 1);
+            this.saveToDisk();
         },
 
         findContactById: function(id) {
@@ -101,6 +93,18 @@ let app = new Vue({
 
         clearForm: function() {
             this.formFirst = this.formLast = this.formEmail = this.formPhone = this.formOldId = '';
+        },
+
+        saveToDisk: function() {
+            localStorage.setItem('contacts', JSON.stringify(this.contacts));
+        },
+
+        findNextId: function() {
+            let max = 0;    // Let IDs start at one
+            this.contacts.forEach((contact) => {
+                if (contact.id > max) max = contact.id;
+            });
+            return ++max;
         }
     }
 
