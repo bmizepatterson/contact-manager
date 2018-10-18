@@ -10,7 +10,7 @@
 
         <h1 class="mt-5 text-primary text-center">Vue Contacts</h1>
 
-        <a name="form">
+        <a name="form"></a>
         <div id="app" class="pt-5" v-cloak>
             <a href="#form" @click="toggleForm">{{ showForm ? 'Hide form' : 'Show form' }}</a>
             <div v-if="showForm" class="mt-4">
@@ -39,40 +39,45 @@
                 </form>
             </div>
 
-            <input v-model="filter" type="text" placeholder="Search contacts..." class="form-control bg-secondary text-light mt-5">
+            <div v-if="contacts.length">
 
-            <a name="contact-list">
-            <table class="table mt-3">
-                <thead>
-                    <tr>
-                        <th><span class="font-weight-normal">Actions</span></th>
-                        <th>
-                            <a href="#contact-list" v-on:click="sortContacts('firstname')" class="pr-1">First Name</a>
-                            <i v-if="sortBy == 'firstname' && sortAscending" class="fas fa-sort-up"></i>
-                            <i v-if="sortBy == 'firstname' && !sortAscending" class="fas fa-sort-down"></i>
-                        </th>
-                        <th>
-                            <a href="#contact-list" v-on:click="sortContacts('lastname')" class="pr-1">Last Name</a>
-                            <i v-if="sortBy == 'lastname' && sortAscending" class="fas fa-sort-up"></i>
-                            <i v-if="sortBy == 'lastname' && !sortAscending" class="fas fa-sort-down"></i>
-                        </th>
-                        <th>Email Address</th>
-                        <th>Phone</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="contact in displayList">
-                        <td>
-                            <i @click="editContact(contact.id)" class="fas fa-user-edit text-success"></i>
-                            <i @click="deleteContact(contact.id)" class="fas fa-user-minus text-danger pl-2"></i>
-                        </td>
-                        <td>{{ contact.firstname }}</td>
-                        <td>{{ contact.lastname }}</td>
-                        <td>{{ contact.emailaddr }}</td>
-                        <td>{{ contact.phonenum }}</td>
-                    </tr>
-                </tbody>
-            </table>
+                <input v-model="filter" type="text" placeholder="Search contacts..." class="form-control bg-secondary text-light mt-5">
+
+                <a name="contact-list"></a>
+                <table class="table mt-3">
+                    <thead>
+                        <tr>
+                            <th><span class="font-weight-normal">Actions</span></th>
+                            <th>
+                                <a href="#contact-list" v-on:click="sortContacts('firstname')" class="pr-1">First Name</a>
+                                <i v-if="sortBy == 'firstname' && sortAscending" class="fas fa-sort-up"></i>
+                                <i v-if="sortBy == 'firstname' && !sortAscending" class="fas fa-sort-down"></i>
+                            </th>
+                            <th>
+                                <a href="#contact-list" v-on:click="sortContacts('lastname')" class="pr-1">Last Name</a>
+                                <i v-if="sortBy == 'lastname' && sortAscending" class="fas fa-sort-up"></i>
+                                <i v-if="sortBy == 'lastname' && !sortAscending" class="fas fa-sort-down"></i>
+                            </th>
+                            <th>Email Address</th>
+                            <th>Phone</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="contact in displayList">
+                            <td>
+                                <i @click="editContact(contact.id)" class="fas fa-user-edit text-success"></i>
+                                <i @click="deleteContact(contact.id)" class="fas fa-user-minus text-danger pl-2"></i>
+                            </td>
+                            <td>{{ contact.firstname }}</td>
+                            <td>{{ contact.lastname }}</td>
+                            <td>{{ contact.emailaddr }}</td>
+                            <td>{{ contact.phonenum }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div v-else class="mt-5 alert alert-info">No contacts have been added. Use the form to enter new contacts.</div>
 
         </div>
 

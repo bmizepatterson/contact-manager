@@ -52,9 +52,9 @@ let app = new Vue({
             // Then, sort.
             if (this.sortBy) {
                 filteredContacts.sort(this.compare);
-            }
-            if (!this.sortAscending) {
-                filteredContacts.reverse();
+                if (!this.sortAscending) {
+                    filteredContacts.reverse();
+                }
             }
 
             return filteredContacts;
@@ -121,6 +121,9 @@ let app = new Vue({
 
             this.contacts.splice(this.findContactById(id), 1);
             this.saveToDisk();
+            if (!this.contacts.length) {
+                this.showForm = true;
+            }
         },
 
         findContactById: function(id) {
