@@ -7,17 +7,16 @@ let app = new Vue({
     data: {
 
         nextId: 1,
-
         contacts: [],
-
         showForm: true,
-
         formFirst: '',
         formLast: '',
         formEmail: '',
         formPhone: '',
-        formOldId: ''
-
+        formOldId: '',
+        sortAscending: false,
+        sortBy: '',
+        filter: ''
     },
 
     mounted: function() {
@@ -28,11 +27,41 @@ let app = new Vue({
         this.nextId = this.findNextId();
     },
 
+    computed: {
+
+        displayList: function() {
+
+            // First, filter.
+            let search = this.filter.trim().toLowerCase();
+            let filteredContacts = this.contacts;
+
+            if (search) {
+                filteredContacts = filteredContacts.filter((contact) => {
+                    if (
+                        contact.firstname.toLowerCase().indexOf(search) !== -1 ||
+                        contact.lastname.toLowerCase().indexOf(search) !== -1 ||
+                        contact.emailaddr.toLowerCase().indexOf(search) !== -1 ||
+                        contact.phonenum.toLowerCase().indexOf(search) !== -1
+                    ) {
+                        return contact;
+                    }
+                });
+            }
+
+
+            // Then, sort.
+
+
+            return filteredContacts;
+
+        }
+    },
+
     methods: {
 
         addOrUpdateContact: function() {
 
-            // validate input
+            // TODO: validate input
 
             // If updating then just delete the old one and add a new
             if (this.formOldId) {
@@ -55,6 +84,15 @@ let app = new Vue({
 
         sortContacts: function(field) {
             console.log("Sorting contacts by [" + field + "]");
+
+            // TODO: validate input
+            if (field == this.sortBy) {
+                // Toggle sort ascending
+                this.sortAscending = !this.sortAscending;
+            } else {
+                this.sortBy = field;
+                this.sortAscending = true;
+            }
         },
 
         toggleForm: function() {

@@ -10,8 +10,9 @@
 
         <h1 class="mt-5 text-primary text-center">Vue Contacts</h1>
 
+        <a name="form">
         <div id="app" class="pt-5" v-cloak>
-            <a href="#" @click="toggleForm">{{ showForm ? 'Hide form' : 'Show form' }}</a>
+            <a href="#form" @click="toggleForm">{{ showForm ? 'Hide form' : 'Show form' }}</a>
             <div v-if="showForm" class="mt-4">
                 <form class="clearfix">
                     <div class="form-group">
@@ -38,18 +39,29 @@
                 </form>
             </div>
 
-            <table class="table mt-5">
+            <input v-model="filter" type="text" placeholder="Search contacts..." class="form-control bg-secondary text-light mt-5">
+
+            <a name="contact-list">
+            <table class="table mt-3">
                 <thead>
                     <tr>
                         <th><span class="font-weight-normal">Actions</span></th>
-                        <th><a href="#" v-on:click="sortContacts('firstname')">First Name</a></th>
-                        <th><a href="#" v-on:click="sortContacts('lastname')">Last Name</a></th>
-                        <th><a href="#" v-on:click="sortContacts('emailaddr')">Email Address</a></th>
-                        <th><a href="#" v-on:click="sortContacts('phonenum')">Phone</a></th>
+                        <th>
+                            <a href="#contact-list" v-on:click="sortContacts('firstname')" class="pr-1">First Name</a>
+                            <i v-if="sortBy == 'firstname' && sortAscending" class="fas fa-sort-up"></i>
+                            <i v-if="sortBy == 'firstname' && !sortAscending" class="fas fa-sort-down"></i>
+                        </th>
+                        <th>
+                            <a href="#contact-list" v-on:click="sortContacts('lastname')" class="pr-1">Last Name</a>
+                            <i v-if="sortBy == 'lastname' && sortAscending" class="fas fa-sort-up"></i>
+                            <i v-if="sortBy == 'lastname' && !sortAscending" class="fas fa-sort-down"></i>
+                        </th>
+                        <th>Email Address</th>
+                        <th>Phone</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="contact in contacts">
+                    <tr v-for="contact in displayList">
                         <td>
                             <i @click="editContact(contact.id)" class="fas fa-user-edit text-success"></i>
                             <i @click="deleteContact(contact.id)" class="fas fa-user-minus text-danger pl-2"></i>
