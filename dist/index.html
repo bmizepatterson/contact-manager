@@ -7,37 +7,39 @@
     </head>
     <body class="container bg-dark text-light">
 
-        <h1 class="mt-5 text-info text-center">Vue Contacts</h1>
+        <h1 class="mt-5 text-primary text-center">Vue Contacts</h1>
 
-        <div id="app">
-
-            <form class="mt-5">
-                <div class="form-group">
-                    <label for="firstname">First Name</label>
-                    <input id="firstname" type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="lastname">Last Name:</label>
-                    <input id="lastname" type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="emailaddr">Email Address:</label>
-                    <input id="emailaddr" type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="phonenum">Phone Number:</label>
-                    <input id="phonenum" type="text" class="form-control">
-                </div>
-                <button type="button" class="btn btn-info">Add</button>
-            </form>
+        <div id="app" v-cloak>
+            <a class="mt-5" href="#" @click="toggleForm">{{ showForm ? 'Hide form' : 'Show form' }}</a>
+            <div v-if="showForm" class="mt-3">
+                <form class="clearfix">
+                    <div class="form-group">
+                        <label for="firstname" class="text-warning">First Name</label>
+                        <input v-model="formFirst" id="firstname" type="text" class="form-control bg-secondary text-light">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname" class="text-warning">Last Name:</label>
+                        <input v-model="formLast" id="lastname" type="text" class="form-control bg-secondary text-light">
+                    </div>
+                    <div class="form-group">
+                        <label for="emailaddr" class="text-warning">Email Address:</label>
+                        <input v-model="formEmail" id="emailaddr" type="text" class="form-control bg-secondary text-light">
+                    </div>
+                    <div class="form-group">
+                        <label for="phonenum" class="text-warning">Phone Number:</label>
+                        <input v-model="formPhone" id="phonenum" type="text" class="form-control bg-secondary text-light">
+                    </div>
+                    <button type="button" class="btn btn-info btn-warning float-right" @click="addOrUpdateContact">{{ buttonText }}</button>
+                </form>
+            </div>
 
             <table class="table mt-5">
                 <thead>
                     <tr>
-                        <th><a href="#" v-on:click="sort('firstname')">First Name</a></th>
-                        <th><a href="#" v-on:click="sort('lastname')">Last Name</a></th>
-                        <th><a href="#" v-on:click="sort('emailaddr')">Email Address</a></th>
-                        <th><a href="#" v-on:click="sort('phonenum')">Phone</a></th>
+                        <th><a href="#" v-on:click="sortContacts('firstname')">First Name</a></th>
+                        <th><a href="#" v-on:click="sortContacts('lastname')">Last Name</a></th>
+                        <th><a href="#" v-on:click="sortContacts('emailaddr')">Email Address</a></th>
+                        <th><a href="#" v-on:click="sortContacts('phonenum')">Phone</a></th>
                     </tr>
                 </thead>
                 <tbody>
