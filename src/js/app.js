@@ -39,9 +39,9 @@ let app = new Vue({
                 filteredContacts = filteredContacts.filter((contact) => {
                     if (
                         contact.firstname.toLowerCase().indexOf(search) !== -1 ||
-                        contact.lastname.toLowerCase().indexOf(search) !== -1 ||
+                        contact.lastname.toLowerCase().indexOf(search)  !== -1 ||
                         contact.emailaddr.toLowerCase().indexOf(search) !== -1 ||
-                        contact.phonenum.toLowerCase().indexOf(search) !== -1
+                        contact.phonenum.toLowerCase().indexOf(search)  !== -1
                     ) {
                         return contact;
                     }
@@ -50,7 +50,12 @@ let app = new Vue({
 
 
             // Then, sort.
-
+            if (this.sortBy) {
+                filteredContacts.sort(this.compare);
+            }
+            if (!this.sortAscending) {
+                filteredContacts.reverse();
+            }
 
             return filteredContacts;
 
@@ -143,6 +148,18 @@ let app = new Vue({
                 if (contact.id > max) max = contact.id;
             });
             return ++max;
+        },
+
+        compare(a, b) {
+            const valueA = a[this.sortBy].toLowerCase();
+            const valueB = b[this.sortBy].toLowerCase();
+
+            if (valueA < valueB) {
+                return -1;
+            }
+            if (valueA > valueB) {
+                return 1;
+            }
         }
     }
 
