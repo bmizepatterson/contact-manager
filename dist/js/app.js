@@ -32,7 +32,8 @@ let app = new Vue({
         formFirst: '',
         formLast: '',
         formEmail: '',
-        formPhone: ''
+        formPhone: '',
+        formOldId: ''
 
     },
 
@@ -41,6 +42,11 @@ let app = new Vue({
         addOrUpdateContact: function() {
 
             // validate input
+
+            // If updating then just delete the old one and add a new
+            if (this.formOldId) {
+                this.deleteContact(this.formOldId);
+            }
 
             let newContact = {
                 id: this.nextId,
@@ -52,9 +58,10 @@ let app = new Vue({
 
             this.contacts.push(newContact);
 
-            this.formFirst = this.formLast = this.formEmail = this.formPhone = '';
+            this.clearForm();
 
             this.nextId++;
+            this.buttonText = 'Add';
         },
 
         sortContacts: function(field) {
@@ -63,8 +70,42 @@ let app = new Vue({
 
         toggleForm: function() {
             this.showForm = !this.showForm;
-        }
+            if (!this.showForm) this.clearForm();
+        },
 
+        editContact: function(id) {
+            let updateContact = this.contacts[this.findContactById(id)];
+            this.formFirst = updateContact.firstname;
+            this.formLast = updateContact.lastname;
+            this.formEmail = updateContact.emailaddr;
+            this.formPhone = updateContact.phonenum;
+            this.formOldId = updateContact.id;
+
+            this.showForm = true;
+            this.buttonText = 'Update';
+        },
+
+        deleteContact: function(id) {
+
+            // TODO: Ask for confirmation
+
+            this.contacts.splice(this.findContactById(id), 1);
+        },
+
+        findContactById: function(id) {
+            let index = -1;
+            for (let i = 0; i < this.contacts.length; i++) {
+                if (this.contacts[i].id === id) {
+                    index = i;
+                    break;
+                }
+            }
+            return index;
+        },
+
+        clearForm: function() {
+            this.formFirst = this.formLast = this.formEmail = this.formPhone = this.formOldId = '';
+        }
     }
 
 });
