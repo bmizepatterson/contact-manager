@@ -17,6 +17,7 @@
         "sass": "^1.14.1"
     },
     "dependencies": {
-        "concurrently": "^4.0.1"
+        "concurrently": "^4.0.1",
+        "express": "^4.16.3"
     }
 }
